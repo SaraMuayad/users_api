@@ -10,32 +10,63 @@ const port = 3000;
 // Middleware
 app.use(bodyParser.json());
 
-// Mock database
-// let users = [
-//   { id: 1,  firstname:"Sara",lastname:"Muayad", job_title: "Softwate Engineer", age:26,},
-//   { id: 2,  firstname:"Rayan",lastname:"Ibrahim", job_title: "Programmer", age:24,},
-//   { id: 3,  firstname:"Sana",lastname:"Jaff",  job_title: "Artiest", age:28,},
-//   { id: 4,  firstname:"Shayma",lastname:"Karwan",  job_title: "Techer", age:30,},
-// ];
 
-const  users = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data.json`))
+const  users = JSON.parse(fs.readFileSync(`${__dirname}/data/data.json`))
 // Routes
 
+
 // Get all posts
-app.get('/users', (req, res) => {
-  res.json(users);
+app.get('/api/v1/users', (req, res) => {
+  // res.json(users);
+
+
+  res.status(200).json({
+    message: 'sucess',
+    results: users.length,
+    data :{
+        users
+    }
+  })
 });
 
 // Get a single post by id
-app.get('/users/:id', (req, res) => {
-  const userId = parseInt(req.params.id);
-  const user = users.find(p => p.id === userId);
-  if (user) {
-    res.json(user);
-  } else {
-    res.status(404).json({ message: 'Post not found' });
-  }
-});
+
+app.get('/api/v1/users/:id',(req, res) => {
+
+  const id = req.params.id * 1
+  const user = users.find(el =>el.id === id) 
+  if(!user){
+    return res.status(404).json({
+        status: 'fail',
+        message: 'Invaild ID'
+    })
+}
+
+
+  res.status(200).json({
+    status:'success',
+    
+ results:users.length,
+    data: {
+        users :user
+    }
+})
+
+  
+  
+  
+})
+
+
+// app.get('/api/v1/users/:id', (req, res) => {
+//   const userId = parseInt(req.params.id);
+//   const user = users.find(p => p.id === userId);
+//   if (user) {
+//     res.json(user);
+//   } else {
+//     res.status(404).json({ message: 'data not found' });
+//   }
+// });
 
 // Create a new post
 app.post('/users', (req, res) => {
