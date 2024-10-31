@@ -1,5 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const  fs = require('fs')
+
+
 
 const app = express();
 const port = 3000;
@@ -8,13 +11,14 @@ const port = 3000;
 app.use(bodyParser.json());
 
 // Mock database
-let users = [
-  { id: 1,  firstname:"Sara",lastname:"Muayad", job_title: "Softwate Engineer", age:26,},
-  { id: 2,  firstname:"Rayan",lastname:"Ibrahim", job_title: "Programmer", age:24,},
-  { id: 3,  firstname:"Sana",lastname:"Jaff",  job_title: "Artiest", age:28,},
-  { id: 4,  firstname:"Shayma",lastname:"Karwan",  job_title: "Techer", age:30,},
-];
+// let users = [
+//   { id: 1,  firstname:"Sara",lastname:"Muayad", job_title: "Softwate Engineer", age:26,},
+//   { id: 2,  firstname:"Rayan",lastname:"Ibrahim", job_title: "Programmer", age:24,},
+//   { id: 3,  firstname:"Sana",lastname:"Jaff",  job_title: "Artiest", age:28,},
+//   { id: 4,  firstname:"Shayma",lastname:"Karwan",  job_title: "Techer", age:30,},
+// ];
 
+const  users = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data.json`))
 // Routes
 
 // Get all posts
